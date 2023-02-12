@@ -1,0 +1,79 @@
+<div class="overlay">
+  <div class="container">
+    <div class="screen">
+      <div class="screen-content">
+        <form class="login">
+          <div class="example-container">
+            <mat-form-field appearance="fill">
+              <i class="login-icon fas fa-user"></i>
+              <mat-label>Username / Email</mat-label>
+              <input
+                matInput
+                placeholder="pat@example.com"
+                [formControl]="email"
+                required
+              />
+              <mat-error *ngIf="email.invalid">{{ getEmailError() }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Enter your password</mat-label>
+              <i class="login-icon fas fa-lock"></i>
+
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                required
+                [formControl]="password"
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+              >
+                <mat-icon>{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <!-- <div class="login-field">
+            <i class="login-icon fas fa-user"></i>
+            <input
+              type="text"
+              class="login-input"
+              placeholder="Username / Email"
+            />
+          </div>
+          <div class="login-field">
+            <i class="login-icon fas fa-lock"></i>
+            <input type="password" class="login-input" placeholder="Password" />
+          </div> -->
+
+          <button class="button login-submit" type="button" (click)="signIn()">
+            <span class="button-text">Sign In</span>
+            <i class="button-icon fas fa-chevron-right"></i>
+          </button>
+
+          <p class="register">
+            Not a member? <a routerLink="">Sign up now</a>
+            <i class="button-icon fas fa-chevron-right"></i>
+            <i class="button-icon fas fa-chevron-right"></i>
+          </p>
+
+          <mat-error class="text-center alert alert-danger" *ngIf="messageError"
+            >Email or Password not Valid</mat-error
+          >
+        </form>
+      </div>
+      <div class="screen-background">
+        <span class="screen-background-shape screen-background-shape4"></span>
+        <span class="screen-background-shape screen-background-shape3"></span>
+        <span class="screen-background-shape screen-background-shape2"></span>
+        <span class="screen-background-shape screen-background-shape1"></span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 .overlay {
   background: linear-gradient(90deg, #c7c5f4, var(--overlay3-color));
+  overflow: hidden;
   .container {
     display: flex;
     align-items: center;

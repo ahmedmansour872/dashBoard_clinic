@@ -11,7 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [],
   imports: [
@@ -27,6 +27,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatRadioModule,
     MatButtonModule,
     MatPaginatorModule,
+    MatAutocompleteModule,
   ],
   exports: [
     CommonModule,
@@ -41,6 +42,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatRadioModule,
     MatButtonModule,
     MatPaginatorModule,
+    MatAutocompleteModule,
   ],
 })
 export class SharedModulesModule {}

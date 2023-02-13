@@ -32,7 +32,6 @@ export class LoginComponent {
       this.auth
         .getUser(this.email.value as string, this.password.value as string)
         .then((data) => {
-          console.log(data.roles[0].name);
           let role = data.roles[0].name;
           switch (role) {
             case 'SuperAdmin':

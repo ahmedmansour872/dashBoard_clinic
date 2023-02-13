@@ -1,1 +1,108 @@
-<p>clinics works!</p>
+<div class="container">
+  <h1>all Clinics in system</h1>
+  <div class="add-user">
+    <div class="add-clinic">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="isOpenPopup = true"
+      >
+        Add Clinic
+      </button>
+    </div>
+    <div class="search">
+      <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Enter Clinic Name</mat-label>
+          <input
+            type="search"
+            placeholder="Search Clinic"
+            aria-label="Enter Clinic Name"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of result"
+              [value]="option.title"
+              (click)="searchClinic(option)"
+            >
+              {{ option.title }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <ng-container *ngIf="isShowData; else nodata">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+        <!-- <ng-container matColumnDef="index">
+         <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element">{{element|json}}</td>
+      </ng-container> -->
+
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Title</th>
+          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef>Delete</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="warn" (click)="edit(element)">
+              Delete
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef>Edit</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="primary" (click)="edit(element)">
+              Edit
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+    </div>
+  </ng-container>
+
+  <ng-template #nodata>
+    <div style="text-align: center" class="alert alert-danger">
+      No data To Show
+    </div>
+  </ng-template>
+</div>
+
+<div class="popup" (click)="isOpenPopup = true" *ngIf="isOpenPopup">
+  <div class="overlay">
+    <form></form>
+  </div>
+</div>
+
+<!-- id: 2, name: 'admin', email: 'Admin@ebaa.com', phone: '01064335311',
+national_id: '123456789013' -->
+<!-- clinic_id -->

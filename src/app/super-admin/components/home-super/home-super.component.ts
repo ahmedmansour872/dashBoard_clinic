@@ -1,8 +1,7 @@
-import { InfoClinicsService } from './../../services/info-clinics.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { GetUsersService } from '../../services/get-users.service';
+import { ClinicsService } from '../../services/clinics/clinics.service';
 
 @Component({
   selector: 'app-home-super',
@@ -12,13 +11,13 @@ import { GetUsersService } from '../../services/get-users.service';
 export class HomeSuperComponent implements OnInit, AfterViewInit {
   result: any;
   isShowData: boolean;
-  constructor(private aboutClinics: InfoClinicsService) {
+  constructor(private aboutClinics: ClinicsService) {
     this.result = [];
     this.isShowData = false;
   }
 
   ngOnInit(): void {
-    this.aboutClinics.getInfoAboutClinics().subscribe(
+    this.aboutClinics.getClinics().subscribe(
       (data) => {
         this.isShowData = true;
         data.data.active.forEach((e: any, i: number) => {

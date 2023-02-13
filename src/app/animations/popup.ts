@@ -11,21 +11,22 @@ export const popup = [
   trigger('popupParent', [
     transition(':enter', [
       style({ opacity: 0 }),
-      animate('1s', style({ opacity: 1 })),
-      query('@popupChild', [animateChild()]),
+      animate('.5s', style({ opacity: 1 })),
+      query('@popupChildRight', [animateChild()]),
+      query('@popupChildLeft', [animateChild()]),
     ]),
-    transition(':leave', [
-      animate('1s', style({ opacity: 0 })),
-      // query('@popupChild', [animateChild()]),
+    transition(':leave', [animate('.5s', style({ opacity: 0 }))]),
+  ]),
+  trigger('popupChildRight', [
+    transition(':enter', [
+      style({ opacity: 0, transform: 'translateX(100px)' }),
+      animate('.5s', style({ opacity: 1, transform: 'translateX(0)' })),
     ]),
   ]),
-  trigger('popupChild', [
+  trigger('popupChildLeft', [
     transition(':enter', [
-      style({ opacity: 0, transform: 'translateX(160px)' }),
-      animate('1s', style({ opacity: 1, transform: 'translateX(1px)' })),
+      style({ opacity: 0, transform: 'translateX(-100px)' }),
+      animate('.5s', style({ opacity: 1, transform: 'translateX(0)' })),
     ]),
-    // transition(':leave', [
-    //   animate('1s', style({ opacity: 0, transform: 'translateY(50px)' })),
-    // ]),
   ]),
 ];

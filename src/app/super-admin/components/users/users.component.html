@@ -1,7 +1,7 @@
 <div class="container">
   <h1>all users in system</h1>
   <div class="add-user">
-    <button type="button" class="btn btn-success" (click)="isOpenPopup = true">
+    <button type="button" class="btn btn-success" (click)="openPopup()">
       Add User
     </button>
   </div>
@@ -9,7 +9,7 @@
   <ng-container *ngIf="isShowData; else nodata">
     <div class="mat-elevation-z8">
       <div class="over">
-        <table mat-table [dataSource]="dataSource" class="table table-hover">
+        <table mat-table [dataSource]="dataSource">
           <!-- <ng-container matColumnDef="index">
        <th mat-header-cell *matHeaderCellDef>No.</th>
       <td mat-cell *matCellDef="let element">{{element|json}}</td>
@@ -40,7 +40,11 @@
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef>Edit</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-raised-button color="primary" (click)="edit(element)">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="editPopup(element)"
+              >
                 Edit
               </button>
             </td>
@@ -51,12 +55,14 @@
         </table>
       </div>
 
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons
-        aria-label="Select page of periodic elements"
-      >
-      </mat-paginator>
+      <ng-container *ngIf="allUsers >= 6">
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements"
+        >
+        </mat-paginator
+      ></ng-container>
     </div>
   </ng-container>
 
@@ -67,7 +73,7 @@
   </ng-template>
 </div>
 
-<div class="popup" (click)="addUser()" *ngIf="isOpenPopup" @popupParent>
+<div class="popup" *ngIf="isOpenPopup" @popupParent>
   <div class="overlay">
     <h1>{{ message }}</h1>
     <form class="example-form" [formGroup]="userForm">
@@ -87,7 +93,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width" @popupChildRight>
+      <mat-form-field class="example-full-width" @popupChildLeft>
         <mat-label>Name</mat-label>
         <input matInput placeholder="Name" formControlName="name" />
         <mat-icon
@@ -106,7 +112,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width" @popupChildLeft>
+      <mat-form-field class="example-full-width" @popupChildRight>
         <mat-label>Telephone</mat-label>
         <span matPrefix>+2 &nbsp;</span>
         <input
@@ -127,36 +133,136 @@
           matInput
           #national_id
           placeholder="Ex. 29903212700311"
-          formControlName="national"
+          formControlName="national_id"
         />
         <mat-icon matSuffix>
           <i class="fa-solid fa-id-card icon-color"></i>
         </mat-icon>
-        <mat-hint align="end">{{ national_id.value.length }} / 14</mat-hint>
+        <mat-hint align="end">{{ national_id.value.length }} / 12</mat-hint>
 
         <mat-error
           *ngIf="national?.invalid && national?.touched && national?.dirty"
         >
-          Please enter national ID Equal 14 Digit
+          Please enter national ID Equal 12 Digit
         </mat-error>
       </mat-form-field>
+      <ng-container *ngIf="AddCheck">
+        <mat-form-field
+          appearance="fill"
+          class="example-full-width"
+          @popupChildRight
+        >
+          <mat-label>Enter your password</mat-label>
+          <input
+            required
+            minlength="8"
+            formControlName="password"
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'hidePassword password'"
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon class="icon-color">{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="
+              password?.value != '' && password?.touched && password?.dirty
+            "
+          >
+            Please enter password more than 8 character
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field
-        appearance="outline"
-        class="example-full-width"
-        @popupChildRight
-      >
-        <mat-label>Clinic</mat-label>
-        <input matInput placeholder="Clinic" formControlName="clinic" />
-        <mat-icon matSuffix
-          ><i class="fa-solid fa-house-chimney-medical icon-color"></i
-        ></mat-icon>
-      </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          class="example-full-width"
+          @popupChildLeft
+        >
+          <mat-label>Enter your Confirme password</mat-label>
+          <input
+            required
+            formControlName="password_confirmation"
+            matInput
+            [type]="hideConfirmePassword ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hideConfirmePassword = !hideConfirmePassword"
+            [attr.aria-label]="'hideConfirmePassword password'"
+            [attr.aria-pressed]="hideConfirmePassword"
+          >
+            <mat-icon class="icon-color">{{
+              hideConfirmePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-error
+          *ngIf="
+            confirmePassword?.value != password?.value &&
+            confirmePassword?.touched &&
+            confirmePassword?.dirty
+          "
+        >
+          not match password and confirme password
+        </mat-error>
+
+        <mat-form-field
+          appearance="fill"
+          appearance="outline"
+          class="example-full-width"
+          @popupChildRight
+        >
+          <mat-label>Clinic</mat-label>
+          <input
+            type="text"
+            aria-label="Number"
+            [matAutocomplete]="auto"
+            matInput
+            placeholder="Clinic"
+            formControlName="clinic_id"
+          />
+
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of clinics" [value]="option.title">
+              {{ option.title }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-icon matSuffix
+            ><i class="fa-solid fa-house-chimney-medical icon-color"></i
+          ></mat-icon>
+        </mat-form-field>
+      </ng-container>
     </form>
 
     <div class="buttons">
-      <button type="button" class="btn btn-success">Add User</button>
-      <button mat-raised-button color="primary">Edit User</button>
+      <div [style.color]="userForm.status == 'VALID' ? 'blue' : 'red'">
+        {{
+          userForm.status == "VALID" ? "data is Right" : "all Filed is Required"
+        }}
+      </div>
+      <button
+        *ngIf="AddCheck; else edit"
+        type="button"
+        class="btn btn-success"
+        [disabled]="userForm.status == 'INVALID'"
+        (click)="addUser()"
+      >
+        Add User
+      </button>
+      <ng-template #edit>
+        <button mat-raised-button color="primary" (click)="editUder()">
+          Edit User
+        </button>
+      </ng-template>
       <button
         type="button"
         class="btn btn-success"

@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { Users } from '../super-admin/interface/Users';
 
 @Component({
   selector: 'app-login',
@@ -31,8 +32,9 @@ export class LoginComponent {
 
       this.auth
         .getUser(this.email.value as string, this.password.value as string)
-        .then((data) => {
-          let role = data.roles[0].name;
+        .then((data: Users) => {
+          let role = data.roles![0].name;
+          localStorage.setItem('name', data.name);
           switch (role) {
             case 'SuperAdmin':
               this.router.navigateByUrl('superAdmin');

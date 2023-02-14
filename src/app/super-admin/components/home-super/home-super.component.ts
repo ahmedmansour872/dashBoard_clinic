@@ -13,7 +13,7 @@ export class HomeSuperComponent implements OnInit, AfterViewInit {
   isShowData: boolean;
   constructor(private aboutClinics: ClinicsService) {
     this.result = [];
-    this.isShowData = false;
+    this.isShowData = true;
   }
 
   ngOnInit(): void {
@@ -21,14 +21,15 @@ export class HomeSuperComponent implements OnInit, AfterViewInit {
       (data) => {
         this.isShowData = true;
         data.data.active.forEach((e: any, i: number) => {
-          this.result.push({
-            index: i + 1,
-            name: e.staff[0].name,
-            title: e.title,
-            phone: e.staff[0].phone,
-            city: e.city,
-            address: e.address,
-          });
+          if (e.staff.length > 0)
+            this.result.push({
+              index: i + 1,
+              name: e.staff[0].name,
+              title: e.title,
+              phone: e.staff[0].phone,
+              city: e.city,
+              address: e.address,
+            });
         });
         this.dataSource = new MatTableDataSource(this.result);
       },

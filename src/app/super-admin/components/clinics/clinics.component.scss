@@ -6,7 +6,9 @@
   }
 
   .add-user {
-    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 25px;
     margin-right: 20px;
   }
@@ -45,7 +47,6 @@
     }
 
     .example-full-width {
-      padding: 10px;
       width: 100%;
       margin-top: 0;
 

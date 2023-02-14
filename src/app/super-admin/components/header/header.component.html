@@ -15,17 +15,33 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/superAdmin" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+          <a
+            class="nav-link active"
+            aria-current="page"
+            routerLink="/superAdmin"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
             >Home</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="users" routerLinkActive="active">Users</a>
+          <a class="nav-link" routerLink="users" routerLinkActive="active"
+            >Users</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="clinics" routerLinkActive="active">Clinics</a>
+          <a class="nav-link" routerLink="clinics" routerLinkActive="active"
+            >Clinics</a
+          >
         </li>
       </ul>
+
+      <div class="login">
+        <div>
+          Wellcom Mr / <span class="name">{{ name }}</span>
+        </div>
+        <button mat-raised-button color="primary" routerLink="">Login</button>
+      </div>
     </div>
   </div>
 </nav>

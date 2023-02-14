@@ -10,11 +10,6 @@
     <div class="mat-elevation-z8">
       <div class="over">
         <table mat-table [dataSource]="dataSource">
-          <!-- <ng-container matColumnDef="index">
-       <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell *matCellDef="let element">{{element|json}}</td>
-    </ng-container> -->
-
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -55,7 +50,7 @@
         </table>
       </div>
 
-      <ng-container *ngIf="allUsers >= 6">
+      <ng-container *ngIf="allUser.length >= 6">
         <mat-paginator
           [pageSizeOptions]="[5, 10, 20]"
           showFirstLastButtons
@@ -215,31 +210,53 @@
           not match password and confirme password
         </mat-error>
 
-        <mat-form-field
-          appearance="fill"
-          appearance="outline"
-          class="example-full-width"
-          @popupChildRight
-        >
-          <mat-label>Clinic</mat-label>
-          <input
-            type="text"
-            aria-label="Number"
-            [matAutocomplete]="auto"
-            matInput
-            placeholder="Clinic"
-            formControlName="clinic_id"
-          />
+        <ng-container *ngIf="clinics.length; else noData">
+          <mat-form-field
+            appearance="fill"
+            appearance="outline"
+            class="example-full-width"
+            @popupChildRight
+          >
+            <mat-label>Clinic</mat-label>
+            <input
+              type="text"
+              aria-label="Number"
+              [matAutocomplete]="auto"
+              matInput
+              placeholder="Clinic"
+              formControlName="clinic_id"
+            />
 
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of clinics" [value]="option.title">
-              {{ option.title }}
-            </mat-option>
-          </mat-autocomplete>
-          <mat-icon matSuffix
-            ><i class="fa-solid fa-house-chimney-medical icon-color"></i
-          ></mat-icon>
-        </mat-form-field>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of clinics" [value]="option.title">
+                {{ option.title }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-icon matSuffix
+              ><i class="fa-solid fa-house-chimney-medical icon-color"></i
+            ></mat-icon>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-template #noData>
+          <mat-form-field
+            appearance="fill"
+            appearance="outline"
+            class="example-full-width"
+            @popupChildRight
+          >
+            <mat-label>You Should Add Clinics Before Add to User</mat-label>
+            <input
+              type="text"
+              aria-label="Number"
+              matInput
+              placeholder="Clinic"
+              [disabled]="clinics.length"
+            />
+            <mat-icon matSuffix
+              ><i class="fa-solid fa-house-chimney-medical icon-color"></i
+            ></mat-icon> </mat-form-field
+        ></ng-template>
       </ng-container>
     </form>
 
@@ -272,4 +289,26 @@
       </button>
     </div>
   </div>
+</div>
+
+<div class="success">
+  <ng-container *ngIf="success == 'edit'">
+    <div class="alert alert-success" @translate>
+      the Data updated successfully
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="success == 'add'">
+    <div class="alert alert-success" @translate>
+      the Data added successfully
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="wrong == 'errorEdit'">
+    <div class="alert alert-danger" @translate>the Data updated wrong</div>
+  </ng-container>
+
+  <ng-container *ngIf="wrong == 'errorAdd'">
+    <div class="alert alert-danger" @translate>the Data Add wrong</div>
+  </ng-container>
 </div>

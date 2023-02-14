@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Users } from '../../interface/users';
 import { environment as urlApi } from './../../../../environment/environment';
 
 @Injectable({
@@ -14,7 +15,7 @@ export class GetUsersService {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.http.get<any>(`${urlApi.urlAPI}/api/v1/super-admin/users`, {
+    return this.http.get<Users>(`${urlApi.urlAPI}/api/v1/super-admin/users`, {
       headers: headers,
     });
   }

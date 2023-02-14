@@ -1,7 +1,7 @@
-import { Users } from './../interfaces/users';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { Users } from '../super-admin/interface/users';
 import { environment as urlApi } from './../../environment/environment';
 
 @Injectable({
@@ -44,7 +44,7 @@ export class AuthService {
 
     const promise = await new Promise<void>((resolve, reject) => {
       this.http
-        .get<Users>(`${urlApi.urlAPI}/api/v1/clinic/auth`, {
+        .get<any>(`${urlApi.urlAPI}/api/v1/clinic/auth`, {
           headers: headers,
         })
         .pipe(catchError((err) => this.catchAuthError(err)))

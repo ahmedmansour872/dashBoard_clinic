@@ -1,5 +1,7 @@
+import { Clinic } from './../../interface/clinic';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Clinics } from '../../interface/clinics';
 
 import { environment as urlApi } from './../../../../environment/environment';
 @Injectable({
@@ -14,9 +16,12 @@ export class ClinicsService {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.http.get<any>(`${urlApi.urlAPI}/api/v1/super-admin/clinics`, {
-      headers: headers,
-    });
+    return this.http.get<Clinics>(
+      `${urlApi.urlAPI}/api/v1/super-admin/clinics`,
+      {
+        headers: headers,
+      }
+    );
   }
 
   getOneClinic(id: number) {
@@ -25,7 +30,7 @@ export class ClinicsService {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.http.get<any>(
+    return this.http.get<Clinic>(
       `${urlApi.urlAPI}/api/v1/super-admin/clinics/${id}`,
       {
         headers: headers,
@@ -33,13 +38,13 @@ export class ClinicsService {
     );
   }
 
-  createClinic(clinic: any) {
+  createClinic(clinic: Clinic) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.http.post<any>(
+    return this.http.post<Clinic>(
       `${urlApi.urlAPI}/api/v1/super-admin/clinics`,
       clinic,
       {
@@ -48,13 +53,13 @@ export class ClinicsService {
     );
   }
 
-  editClinic(clinic: any, id: number) {
+  editClinic(clinic: Clinic, id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.http.put<any>(
+    return this.http.put<Clinic>(
       `${urlApi.urlAPI}/api/v1/super-admin/clinics/${id}`,
       clinic,
       {
@@ -69,7 +74,7 @@ export class ClinicsService {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.http.delete<any>(
+    return this.http.delete<Clinic>(
       `${urlApi.urlAPI}/api/v1/super-admin/clinics/${id}`,
       {
         headers: headers,

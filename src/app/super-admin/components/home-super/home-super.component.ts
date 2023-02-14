@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Clinics } from '../../interface/clinics';
 import { ClinicsService } from '../../services/clinics/clinics.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class HomeSuperComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.aboutClinics.getClinics().subscribe(
-      (data) => {
+      (data: Clinics) => {
         this.isShowData = true;
         data.data.active.forEach((e: any, i: number) => {
           if (e.staff.length > 0)

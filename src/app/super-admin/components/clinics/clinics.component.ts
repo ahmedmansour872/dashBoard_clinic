@@ -1,21 +1,19 @@
+import { move } from 'src/app/animations/moveOn';
+import { Clinic } from './../../interface/clinic';
 import { Router } from '@angular/router';
 import { ClinicsService } from './../../services/clinics/clinics.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { popup } from 'src/app/animations/popup';
+import { Clinics } from '../../interface/clinics';
 
 @Component({
   selector: 'app-clinics',
   templateUrl: './clinics.component.html',
   styleUrls: ['./clinics.component.scss'],
-  animations: [popup],
+  animations: [popup, move],
 })
 export class ClinicsComponent implements OnInit {
   AddCheck: boolean;
@@ -26,12 +24,16 @@ export class ClinicsComponent implements OnInit {
   result: any;
   isShowData: boolean;
   clinicId: number;
+  success: string;
+  wrong: string;
 
   constructor(
     private clinics: ClinicsService,
     private router: Router,
     private formbuilder: FormBuilder
   ) {
+    this.success = '';
+    this.wrong = '';
     this.clinicId = 1;
     this.isOpenPopup = false;
     this.result = [];
@@ -47,10 +49,10 @@ export class ClinicsComponent implements OnInit {
 
   ngOnInit(): void {
     this.clinics.getClinics().subscribe(
-      (data) => {
+      (data: Clinics) => {
         this.result = data.data.active;
         this.isShowData = true;
-        this.dataSource = new MatTableDataSource(data.data.active);
+        this.dataSource = new MatTableDataSource(this.result);
       },
       (err) => (this.isShowData = false)
     );
@@ -67,7 +69,7 @@ export class ClinicsComponent implements OnInit {
     });
   }
 
-  editPopup(clinic: any) {
+  editPopup(clinic: Clinic) {
     this.clinicId = clinic.id;
     this.AddCheck = false;
     this.message = 'Edit clinic';
@@ -80,21 +82,65 @@ export class ClinicsComponent implements OnInit {
   }
 
   addClinic() {
-    this.clinics
-      .createClinic(this.clinicForm.value)
-      .subscribe(() => location.reload());
+    this.clinics.createClinic(this.clinicForm.value).subscribe(
+      () => {
+        this.success = 'add';
+        setTimeout(() => {
+          this.success = '';
+          this.isOpenPopup = false;
+        }, 2000);
+        this.ngOnInit();
+      },
+      (err) => {
+        this.wrong = 'errorAdd';
+        setTimeout(() => {
+          this.wrong = '';
+          this.isOpenPopup = false;
+        }, 2000);
+      }
+    );
   }
 
   editClinic() {
-    this.clinics
-      .editClinic(this.clinicForm.value, this.clinicId)
-      .subscribe(() => location.reload());
+    this.clinics.editClinic(this.clinicForm.value, this.clinicId).subscribe(
+      () => {
+        this.success = 'edit';
+        setTimeout(() => {
+          this.success = '';
+          this.isOpenPopup = false;
+        }, 2000);
+        this.ngOnInit();
+      },
+      (err) => {
+        this.wrong = 'errorEdit';
+        setTimeout(() => {
+          this.wrong = '';
+          this.isOpenPopup = false;
+        }, 2000);
+      }
+    );
   }
 
-  deleteClinic(clinic: any) {
+  deleteClinic(clinic: Clinic) {
     let check = confirm(`Are You Sure Delete this Clinic ${clinic.title}`);
     if (check) {
-      this.clinics.deleteClinic(clinic.id).subscribe(() => location.reload());
+      this.clinics.deleteClinic(clinic.id).subscribe(
+        () => {
+          this.success = 'delete';
+          setTimeout(() => {
+            this.success = '';
+            this.isOpenPopup = false;
+          }, 2000);
+          this.ngOnInit();
+        },
+        (err) => {
+          this.wrong = 'errorDelete';
+          setTimeout(() => {
+            this.wrong = '';
+            this.isOpenPopup = false;
+          }, 2000);
+        }
+      );
     }
   }
 

@@ -19,7 +19,8 @@ export class AuthguardGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (localStorage.getItem('token')) return true;
+    if (localStorage.getItem('token'))
+      if (localStorage.getItem('role') == 'SuperAdmin') return true;
 
     return false;
   }

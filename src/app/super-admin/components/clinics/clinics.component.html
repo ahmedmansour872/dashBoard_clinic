@@ -188,3 +188,38 @@
     </div>
   </div>
 </div>
+
+
+
+<div class="success">
+  <ng-container *ngIf="success == 'delete'">
+    <div class="alert alert-success" @translate>
+      the Data Deleted Successfully
+    </div>
+  </ng-container>
+  
+  <ng-container *ngIf="success == 'edit'">
+    <div class="alert alert-success" @translate>
+      the Data updated successfully
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="success == 'add'">
+    <div class="alert alert-success" @translate>
+      the Data added successfully
+    </div>
+  </ng-container>
+
+
+  <ng-container *ngIf="wrong == 'errorEdit' ">
+    <div class="alert alert-danger" @translate>the Data updated wrong</div>
+  </ng-container>
+
+  <ng-container *ngIf="wrong =='errorDelete'">
+    <div class="alert alert-danger" @translate>the Data Deleted wrong</div>
+  </ng-container>
+
+  <ng-container *ngIf="wrong =='errorAdd'">
+    <div class="alert alert-danger" @translate>the Data Add wrong</div>
+  </ng-container>
+</div>

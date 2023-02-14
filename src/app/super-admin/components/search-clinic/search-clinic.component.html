@@ -1,1 +1,107 @@
-<p>search-clinic works!</p>
+<div class="popup" @popupParent *ngIf="showData; else noShowData">
+  <div class="overlay">
+    <!-- <h1>{{ message }}</h1> -->
+
+    <form class="example-form" [formGroup]="clinicForm">
+      <mat-form-field class="example-full-width" @popupChildLeft>
+        <mat-label>title</mat-label>
+        <input matInput placeholder="title" formControlName="title" />
+        <mat-icon
+          class="icon-color"
+          matSuffix
+          style="color: red"
+          *ngIf="title?.invalid"
+          >sentiment_very_dissatisfied</mat-icon
+        >
+
+        <mat-icon class="icon-color" matSuffix *ngIf="title?.valid"
+          >sentiment_very_satisfied</mat-icon
+        >
+        <mat-error *ngIf="title?.invalid && title?.touched && title?.dirty">
+          This field is Required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" @popupChildRight>
+        <mat-label>address</mat-label>
+        <input matInput placeholder="address" formControlName="address" />
+        <mat-icon
+          class="icon-color"
+          matSuffix
+          style="color: red"
+          *ngIf="address?.invalid"
+          >sentiment_very_dissatisfied</mat-icon
+        >
+
+        <mat-icon class="icon-color" matSuffix *ngIf="address?.valid"
+          >sentiment_very_satisfied</mat-icon
+        >
+        <mat-error
+          *ngIf="address?.invalid && address?.touched && address?.dirty"
+        >
+          This field is Required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" @popupChildLeft>
+        <mat-label>city</mat-label>
+        <input matInput placeholder="city" formControlName="city" />
+        <mat-icon
+          class="icon-color"
+          matSuffix
+          style="color: red"
+          *ngIf="city?.invalid"
+          >sentiment_very_dissatisfied</mat-icon
+        >
+
+        <mat-icon class="icon-color" matSuffix *ngIf="city?.valid"
+          >sentiment_very_satisfied</mat-icon
+        >
+        <mat-error *ngIf="city?.invalid && city?.touched && city?.dirty">
+          This field is Required
+        </mat-error>
+      </mat-form-field>
+    </form>
+
+    <div class="buttons">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="deleteClinic()"
+      >
+        Delete Clinic
+      </button>
+      <button mat-raised-button color="primary" (click)="editClinic()">
+        Edit Clinic
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #noShowData>
+  <div class="alert alert-danger" style="text-align: center">
+    No Dato To SHow
+  </div>
+</ng-template>
+
+<div class="success">
+  <ng-container *ngIf="success == 'delete'">
+    <div class="alert alert-success" @translate>
+      the Data Deleted Successfully
+    </div>
+  </ng-container>
+  
+  <ng-container *ngIf="success == 'edit'">
+    <div class="alert alert-success" @translate>
+      the Data updated successfully
+    </div>
+  </ng-container>
+
+
+  <ng-container *ngIf="wrong == 'errorEdit' ">
+    <div class="alert alert-danger" @translate>the Data updated wrong</div>
+  </ng-container>
+  <ng-container *ngIf="wrong =='errorDelete'">
+    <div class="alert alert-danger" @translate>the Data DEleted wrong</div>
+  </ng-container>
+</div>

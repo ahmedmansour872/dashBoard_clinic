@@ -1,21 +1,21 @@
+import { move } from 'src/app/animations/moveOn';
+import { User } from './../../interface/user';
+import { Clinics } from './../../interface/clinics';
 import { ClinicsService } from './../../services/clinics/clinics.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { popup } from 'src/app/animations/popup';
 import { GetUsersService } from '../../services/users/get-users.service';
+import { Users } from '../../interface/users';
+import { Clinic } from '../../interface/clinic';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  animations: [popup],
+  animations: [popup, move],
 })
 export class UsersComponent implements OnInit {
   hidePassword: boolean;
@@ -26,15 +26,20 @@ export class UsersComponent implements OnInit {
   isOpenPopup: boolean;
   isShowData: boolean;
   message: string;
-  allUsers: number;
+  allUser: any;
+  allUsers: any;
+  success: string;
+  wrong: string;
 
   constructor(
     private users: GetUsersService,
     private clinic: ClinicsService,
     private formbuilder: FormBuilder
   ) {
+    this.success = '';
+    this.wrong = '';
     this.AddCheck = false;
-    this.allUsers = 0;
+    this.allUser = 0;
     this.hidePassword = true;
     this.hideConfirmePassword = true;
     this.message = 'Add User';
@@ -80,16 +85,18 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.users.getInfoAboutClinics().subscribe(
-      (data) => {
-        this.allUsers = data.data[0].length;
+      (data: Users) => {
+        this.allUser = data.data[0];
+        console.log(this.allUser.length)
+        this.allUsers = data.data;
         this.isShowData = true;
-        this.dataSource = new MatTableDataSource(data.data[0]);
+        this.dataSource = new MatTableDataSource(this.allUsers[0]);
       },
       (err) => (this.isShowData = false)
     );
 
-    this.clinic.getClinics().subscribe((data) => {
-      this.clinics = data.data.active.filter((e: any) => {
+    this.clinic.getClinics().subscribe((data: Clinics) => {
+      this.clinics = data.data.active.filter((e: Clinic) => {
         return e.admin == '';
       });
     });
@@ -108,32 +115,45 @@ export class UsersComponent implements OnInit {
       password: '',
       password_confirmation: '',
     });
+
+    console.log(this.clinics.length);
   }
 
-  editPopup(user: any) {
+  editPopup(user: User) {
     this.AddCheck = false;
     this.message = 'Edit User';
     this.isOpenPopup = true;
-    this.clinic.getOneClinic(user.clinic_id).subscribe((data) => {
-      this.userForm.patchValue({
-        email: user.email,
-        phone: user.phone,
-        name: user.name,
-        national_id: user.national_id,
-        clinic_id: data.data[0].title,
-      });
+    this.userForm.patchValue({
+      email: user.email,
+      phone: user.phone,
+      name: user.name,
+      national_id: user.national_id,
     });
   }
 
   addUser() {
-    this.clinics.forEach((e: any) => {
+    this.clinics.forEach((e: Clinic) => {
       if (this.userForm.value.clinic_id == e.title) {
         this.userForm.value.clinic_id = e.id;
       }
     });
-    this.users
-      .createUser(this.userForm.value)
-      .subscribe(() => location.reload());
+    this.users.createUser(this.userForm.value).subscribe(
+      () => {
+        this.success = 'add';
+        setTimeout(() => {
+          this.success = '';
+          this.isOpenPopup = false;
+        }, 2000);
+        this.ngOnInit();
+      },
+      (err) => {
+        this.wrong = 'errorAdd';
+        setTimeout(() => {
+          this.wrong = '';
+          this.isOpenPopup = false;
+        }, 2000);
+      }
+    );
   }
 
   editUder() {

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/superAdmin">Navbar</a>
+    <a class="navbar-brand" routerLink="/Clinics">Navbar</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -18,20 +18,25 @@
           <a
             class="nav-link active"
             aria-current="page"
-            routerLink="/superAdmin"
+            routerLink="/Clinics"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             >Home</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="users" routerLinkActive="active"
-            >Users</a
+          <a class="nav-link" routerLink="Doctor" routerLinkActive="active"
+            >Doctor</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="clinics" routerLinkActive="active"
-            >Clinics</a
+          <a class="nav-link" routerLink="Store" routerLinkActive="active"
+            >Store</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="Reception" routerLinkActive="active"
+            >Reception</a
           >
         </li>
       </ul>

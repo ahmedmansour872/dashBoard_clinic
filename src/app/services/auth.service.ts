@@ -61,10 +61,10 @@ export class AuthService {
   catchAuthError(error: any): Observable<Response> {
     if (error && error.error && error.error.message) {
       console.error('' + error.error.message);
-      alert('Email or Password not correct');
+      // alert('Email or Password not correct');
       // alert(error.error.message);
-    } else if (error && error.message) alert(error.message);
-    else alert(JSON.stringify(error));
+    } else if (error && error.message) console.error(error.message);
+    else console.error(JSON.stringify(error));
     return error;
   }
 }

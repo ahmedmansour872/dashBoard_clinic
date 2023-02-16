@@ -1,3 +1,4 @@
+import { User } from './../../interface/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Users } from '../../interface/users';
@@ -20,7 +21,7 @@ export class GetUsersService {
     });
   }
 
-  createUser(user: any) {
+  createUser(user: User) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -35,14 +36,14 @@ export class GetUsersService {
     );
   }
 
-  editUser(user: any) {
+  editUser(user: any, userID: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
     return this.http.put<any>(
-      `${urlApi.urlAPI}/api/v1/super-admin/update-admin/:admin`,
+      `${urlApi.urlAPI}/api/v1/super-admin/update-admin/${userID}`,
       user,
       {
         headers: headers,

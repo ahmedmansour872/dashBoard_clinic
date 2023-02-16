@@ -30,12 +30,14 @@ export class UsersComponent implements OnInit {
   allUsers: any;
   success: string;
   wrong: string;
+  userID: number;
 
   constructor(
     private users: GetUsersService,
     private clinic: ClinicsService,
     private formbuilder: FormBuilder
   ) {
+    this.userID = 0;
     this.success = '';
     this.wrong = '';
     this.AddCheck = false;
@@ -87,7 +89,6 @@ export class UsersComponent implements OnInit {
     this.users.getInfoAboutClinics().subscribe(
       (data: Users) => {
         this.allUser = data.data[0];
-        console.log(this.allUser.length)
         this.allUsers = data.data;
         this.isShowData = true;
         this.dataSource = new MatTableDataSource(this.allUsers[0]);
@@ -120,14 +121,18 @@ export class UsersComponent implements OnInit {
   }
 
   editPopup(user: User) {
+    this.userID = user.id;
     this.AddCheck = false;
-    this.message = 'Edit User';
+    this.message = 'Update User';
     this.isOpenPopup = true;
     this.userForm.patchValue({
       email: user.email,
       phone: user.phone,
       name: user.name,
       national_id: user.national_id,
+      password: '0',
+      password_confirmation: '0',
+      clinic_id: '0',
     });
   }
 
@@ -164,7 +169,23 @@ export class UsersComponent implements OnInit {
       national_id: this.userForm.value.national_id,
     };
 
-    this.users.editUser(userUpdate).subscribe((data) => console.log(data));
+    this.users.editUser(userUpdate, this.userID).subscribe(
+      () => {
+        this.success = 'edit';
+        setTimeout(() => {
+          this.success = '';
+          this.isOpenPopup = false;
+        }, 2000);
+        this.ngOnInit();
+      },
+      (err) => {
+        this.wrong = 'errorEdit';
+        setTimeout(() => {
+          this.wrong = '';
+          this.isOpenPopup = false;
+        }, 2000);
+      }
+    );
   }
 
   get email() {

@@ -21,7 +21,7 @@ export class ClinicsComponent implements OnInit {
   clinicForm: FormGroup;
   message: string;
   isOpenPopup: boolean;
-  result: any;
+  result: Clinic[];
   isShowData: boolean;
   clinicId: number;
   success: string;
@@ -52,7 +52,7 @@ export class ClinicsComponent implements OnInit {
       (data: Clinics) => {
         this.result = data.data.active;
         this.isShowData = true;
-        this.dataSource = new MatTableDataSource(this.result);
+        // this.dataSource = new MatTableDataSource(this.result);
       },
       (err) => (this.isShowData = false)
     );

@@ -3,7 +3,11 @@
     <!-- <h1>{{ message }}</h1> -->
 
     <form class="example-form" [formGroup]="clinicForm">
-      <mat-form-field class="example-full-width" @popupChildLeft>
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        @popupChildLeft
+      >
         <mat-label>title</mat-label>
         <input matInput placeholder="title" formControlName="title" />
         <mat-icon
@@ -22,7 +26,11 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width" @popupChildRight>
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        @popupChildRight
+      >
         <mat-label>address</mat-label>
         <input matInput placeholder="address" formControlName="address" />
         <mat-icon
@@ -43,7 +51,11 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width" @popupChildLeft>
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        @popupChildLeft
+      >
         <mat-label>city</mat-label>
         <input matInput placeholder="city" formControlName="city" />
         <mat-icon
@@ -64,11 +76,7 @@
     </form>
 
     <div class="buttons">
-      <button
-        type="button"
-        class="btn btn-danger"
-        (click)="deleteClinic()"
-      >
+      <button type="button" class="btn btn-danger" (click)="deleteClinic()">
         Delete Clinic
       </button>
       <button mat-raised-button color="primary" (click)="editClinic()">
@@ -90,18 +98,17 @@
       the Data Deleted Successfully
     </div>
   </ng-container>
-  
+
   <ng-container *ngIf="success == 'edit'">
     <div class="alert alert-success" @translate>
       the Data updated successfully
     </div>
   </ng-container>
 
-
-  <ng-container *ngIf="wrong == 'errorEdit' ">
+  <ng-container *ngIf="wrong == 'errorEdit'">
     <div class="alert alert-danger" @translate>the Data updated wrong</div>
   </ng-container>
-  <ng-container *ngIf="wrong =='errorDelete'">
+  <ng-container *ngIf="wrong == 'errorDelete'">
     <div class="alert alert-danger" @translate>the Data DEleted wrong</div>
   </ng-container>
 </div>

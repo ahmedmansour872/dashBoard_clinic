@@ -1,49 +1,96 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/superAdmin">Navbar</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            routerLink="/superAdmin"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Home</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="users" routerLinkActive="active"
-            >Users</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="clinics" routerLinkActive="active"
-            >Clinics</a
-          >
-        </li>
-      </ul>
+<nav class="main-menu" appAside (isHover)="show($event)">
+  <div class="user">
+    <ng-container *ngIf="isHover">
+      <span class="name">{{ name }}</span>
+      <div class="email">{{ email }}</div>
+    </ng-container>
 
-      <div class="login">
-        <div>
-          Wellcom Mr / <span class="name">{{ name }}</span>
-        </div>
-        <button mat-raised-button color="primary" routerLink="">
-          Login Out
-        </button>
-      </div>
-    </div>
+    <ul>
+      <li
+        routerLink="/superAdmin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+            width="28"
+            height="28"
+          >
+            <path
+              d="M42 48H28V35h-8v13H6V27a1 1 0 1 1 2 0v19h10V33h12v13h10V28a1 1 0 1 1 2 0v20z"
+              fill="#488c9d"
+              class="color000 svgShape"
+            ></path>
+            <path
+              d="M47 27a.997.997 0 0 1-.691-.277L24 5.384 1.691 26.723a1 1 0 0 1-1.383-1.445L24 2.616l23.691 22.661A1 1 0 0 1 47 27zM39 15a1 1 0 0 1-1-1V8h-6a1 1 0 1 1 0-2h8v8a1 1 0 0 1-1 1z"
+              fill="#488c9d"
+              class="color000 svgShape"
+            ></path>
+          </svg>
+          <!-- <i class="fa-solid fa-house icons"></i> -->
+          <span class="nav-text" *ngIf="isHover"> Home </span>
+        </a>
+      </li>
+      <li routerLink="users" routerLinkActive="active">
+        <a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+            width="28"
+            height="28"
+          >
+            <path
+              d="M59.3 52.2C65.8 48.2 70 40.3 70 33c0-10.4-8.5-22-20-22S30 22.6 30 33c0 7.3 4.2 15.2 10.7 19.2C25.3 56.3 14 70.4 14 87c0 1.1.9 2 2 2h68c1.1 0 2-.9 2-2 0-16.6-11.3-30.7-26.7-34.8zM34 33c0-10.3 8.5-18 16-18s16 7.7 16 18-8.5 18-16 18-16-7.7-16-18zM18.1 85c1-16.7 15-30 31.9-30s30.9 13.3 31.9 30H18.1z"
+              fill="#488c9d"
+              class="color000 svgShape"
+            ></path>
+            <path
+              fill="#0000ff"
+              d="M1224-790V894H-560V-790h1784m8-8H-568V902h1800V-798z"
+              class="color00F svgShape"
+            ></path>
+          </svg>
+          <!-- <i class="fa-regular fa-user icons"></i> -->
+          <span class="nav-text" *ngIf="isHover"> Users </span>
+        </a>
+      </li>
+      <li routerLink="clinics" routerLinkActive="active">
+        <a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 24 24"
+            viewBox="0 0 24 24"
+            width="28"
+            height="28"
+          >
+            <path
+              d="M11.5,12v1.5H10c-0.3,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5h1.5V16c0,0.3,0.2,0.5,0.5,0.5h0c0.3,0,0.5-0.2,0.5-0.5v-1.5H14c0.3,0,0.5-0.2,0.5-0.5s-0.2-0.5-0.5-0.5h-1.5V12c0-0.3-0.2-0.5-0.5-0.5S11.5,11.7,11.5,12z M21.8,10.6l-9.5-8.4c-0.2-0.2-0.5-0.2-0.7,0l-9.5,8.4c-0.2,0.2-0.2,0.5,0,0.7c0.2,0.2,0.5,0.2,0.7,0l1.2-1v11.2C4,21.8,4.2,22,4.5,22h15c0.3,0,0.5-0.2,0.5-0.5V10.3l1.2,1c0.1,0.1,0.2,0.1,0.3,0.1v0c0.1,0,0.3-0.1,0.4-0.2C22.1,11.1,22,10.7,21.8,10.6z M19,21H5V9.4l7-6.2l7,6.2V21z"
+              fill="#488c9d"
+              class="color000 svgShape"
+            ></path>
+          </svg>
+          <!-- <i class="fa-solid fa-house-chimney-medical icons"></i> -->
+          <span class="nav-text" *ngIf="isHover"> Clinics </span>
+        </a>
+      </li>
+    </ul>
   </div>
+
+  <ul class="logout">
+    <li routerLink="">
+      <a>
+        <i class="fa-solid fa-power-off icons"></i>
+        <span class="nav-text" *ngIf="isHover"> Logout </span>
+      </a>
+    </li>
+  </ul>
+
+  <!-- <div class="logout">
+      <div>
+        Wellcom Mr / <span class="name">{{ name }}</span>
+      </div>
+      <button mat-raised-button color="primary" routerLink="">Login Out</button>
+    </div> -->
 </nav>

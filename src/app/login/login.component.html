@@ -2,54 +2,94 @@
   <div class="container">
     <div class="screen">
       <div class="screen-content">
-        <form class="login">
+        <form class="login" autocomplete="off">
           <div class="example-container">
-            <mat-form-field appearance="fill">
-              <i class="login-icon fas fa-user"></i>
-              <mat-label>Username / Email</mat-label>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Email</mat-label>
               <input
+                type="email"
                 matInput
-                placeholder="pat@example.com"
                 [formControl]="email"
-                required
+                placeholder="Ex. pat@example.com"
               />
-              <mat-error *ngIf="email.invalid">{{ getEmailError() }}</mat-error>
+              <mat-icon matSuffix class="icon-color">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 100 100"
+                  width="28"
+                  height="28"
+                >
+                  <path
+                    d="M59.3 52.2C65.8 48.2 70 40.3 70 33c0-10.4-8.5-22-20-22S30 22.6 30 33c0 7.3 4.2 15.2 10.7 19.2C25.3 56.3 14 70.4 14 87c0 1.1.9 2 2 2h68c1.1 0 2-.9 2-2 0-16.6-11.3-30.7-26.7-34.8zM34 33c0-10.3 8.5-18 16-18s16 7.7 16 18-8.5 18-16 18-16-7.7-16-18zM18.1 85c1-16.7 15-30 31.9-30s30.9 13.3 31.9 30H18.1z"
+                    fill="#488c9d"
+                    class="color000 svgShape"
+                  ></path>
+                  <path
+                    fill="#0000ff"
+                    d="M1224-790V894H-560V-790h1784m8-8H-568V902h1800V-798z"
+                    class="color00F svgShape"
+                  ></path>
+                </svg>
+              </mat-icon>
+
+              <mat-error
+                *ngIf="email?.invalid && email?.touched && email?.dirty"
+              >
+                Please enter a valid email address
+              </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill">
+            <mat-form-field
+              appearance="fill"
+              class="example-full-width"
+              appearance="outline"
+            >
               <mat-label>Enter your password</mat-label>
-              <i class="login-icon fas fa-lock"></i>
-
               <input
-                matInput
-                [type]="hide ? 'password' : 'text'"
                 required
                 [formControl]="password"
+                matInput
+                [type]="hide ? 'password' : 'text'"
               />
+
               <button
+                type="button"
                 mat-icon-button
                 matSuffix
                 (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
+                [attr.aria-label]="'hide password'"
                 [attr.aria-pressed]="hide"
               >
-                <mat-icon>{{
+                <mat-icon class="icon-color">{{
                   hide ? "visibility_off" : "visibility"
                 }}</mat-icon>
               </button>
             </mat-form-field>
           </div>
+
           <!-- <div class="login-field">
             <i class="login-icon fas fa-user"></i>
             <input
               type="text"
               class="login-input"
+              [formControl]="email"
               placeholder="Username / Email"
             />
+            <br />
+            <span
+              class="error"
+              *ngIf="email.invalid"
+              >{{ getEmailError() }}</span
+            >
           </div>
           <div class="login-field">
             <i class="login-icon fas fa-lock"></i>
-            <input type="password" class="login-input" placeholder="Password" />
+            <input
+              type="password"
+              [formControl]="password"
+              class="login-input"
+              placeholder="Password"
+            />
           </div> -->
 
           <button class="button login-submit" type="button" (click)="signIn()">
@@ -62,9 +102,8 @@
             <i class="button-icon fas fa-chevron-right"></i>
             <i class="button-icon fas fa-chevron-right"></i>
           </p>
-
-          <mat-error class="text-center alert alert-danger" *ngIf="messageError"
-            >Email or Password not Valid</mat-error
+          <span class="error-center alert alert-success" *ngIf="messageError"
+            >Email or Password not Valid</span
           >
         </form>
       </div>
@@ -77,3 +116,11 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="success">
+  <ng-container *ngIf="messageError">
+    <div class="alert alert-success" @translate>
+      Email or Password not correct
+    </div>
+  </ng-container>
+</div> -->

@@ -36,7 +36,8 @@ export class LoginComponent {
         .then((data: User) => {
           let role = data.roles![0].name;
           localStorage.setItem('name', data.name);
-          localStorage.setItem('role', role);console.log()
+          localStorage.setItem('email', data.email);
+          localStorage.setItem('role', role);
           switch (role) {
             case 'SuperAdmin':
               this.router.navigateByUrl('superAdmin');

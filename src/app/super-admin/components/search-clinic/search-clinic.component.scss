@@ -1,53 +1,9 @@
-
+@import "../users/users.component.scss";
 .popup {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .overlay {
-    padding: 20px;
-    background-color: rgba($color: #fff, $alpha: 0.7);
-    width: 50%;
+  z-index: -1;
+  background-color: unset;
 
-    @media (max-width: 567px) {
-      width: 400px;
-    }
-    @media (max-width: 360px) {
-      width: 300px;
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--main-color);
-    }
-
-    .example-full-width {
-      width: 100%;
-      margin-top: 0;
-
-      .icon-color {
-        color: var(--main-color);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: space-around;
-      button:nth-child(2) {
-        margin: 0 10px;
-      }
-    }
+  .buttons {
+    justify-content: flex-start;
   }
-}
-
-
-.success{
-  width:calc(100% - 150px);
-  display:block;
-  position: absolute;
-  top: 50px;
-  left: 20px;
-  z-index: 3;
 }

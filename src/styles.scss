@@ -3,14 +3,20 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,700");
 
 :root {
-  --main-color: #4c489d;
-  --overlay1-color: #5d54a4;
-  --overlay2-color: #6a679e;
-  --overlay3-color: #7c78b8;
+  --main-color: #488c9d;
+  --second-color: #f6f7fb;
+  --overlay1-color: #53c3a4;
+  --overlay2-color: #6dcfb2;
+  --overlay3-color: #7fccb3;
+  --hover-color: #c5e5d8;
+  --border: 8px;
+  --height: 50px;
+  --gray-color: #F5F5F5;
+  --error-color: #188c9d;
 }
-
 
 body {
   margin: 0;
+  background-color: var(--second-color);
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }

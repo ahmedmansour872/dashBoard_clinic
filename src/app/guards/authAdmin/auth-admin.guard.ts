@@ -20,7 +20,14 @@ export class AuthAdminGuard implements CanActivate {
     | boolean
     | UrlTree {
     if (localStorage.getItem('token'))
-      if (localStorage.getItem('role') == 'Admin') return true;
+      if (
+        localStorage.getItem('role') == 'Admin' ||
+        localStorage.getItem('role') == 'Storekeeper' ||
+        localStorage.getItem('role') == 'Doctor' ||
+        localStorage.getItem('role') == 'Receptionist'
+      ) {
+        return true;
+      }
 
     return false;
   }

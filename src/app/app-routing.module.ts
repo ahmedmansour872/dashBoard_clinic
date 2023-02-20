@@ -1,3 +1,4 @@
+import { StoreGuard } from './guards/store/store.guard';
 import { AboutClinicsModule } from './about-clinics/about-clinics.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';

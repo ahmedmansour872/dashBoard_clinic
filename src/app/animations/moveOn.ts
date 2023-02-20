@@ -1,11 +1,4 @@
-import {
-  animate,
-  animateChild,
-  query,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 export const move = [
   trigger('translate', [

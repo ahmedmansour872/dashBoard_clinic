@@ -2,7 +2,13 @@ import { move } from 'src/app/animations/moveOn';
 import { User } from './../../interface/user';
 import { Clinics } from './../../interface/clinics';
 import { ClinicsService } from './../../services/clinics/clinics.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +16,7 @@ import { popup } from 'src/app/animations/popup';
 import { GetUsersService } from '../../services/users/get-users.service';
 import { Users } from '../../interface/users';
 import { Clinic } from '../../interface/clinic';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +24,8 @@ import { Clinic } from '../../interface/clinic';
   styleUrls: ['./users.component.scss'],
   animations: [popup, move],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
+  subscriptions: Subscription[] = [];
   hidePassword: boolean;
   hideConfirmePassword: boolean;
   AddCheck: boolean;
@@ -30,7 +38,8 @@ export class UsersComponent implements OnInit {
   allUsers: any;
   success: string;
   wrong: string;
-  userID: number;
+  userID: any;
+  clinicForm: FormGroup;
 
   constructor(
     private users: GetUsersService,
@@ -66,11 +75,15 @@ export class UsersComponent implements OnInit {
           Validators.required,
         ],
       ],
-      password: [''],
-      password_confirmation: [''],
-      clinic_id: ['', Validators.required],
+      password: ['', [Validators.required]],
+      password_confirmation: ['', [Validators.required]],
     });
 
+    this.clinicForm = this.formbuilder.group({
+      title: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+    });
     this.userForm.valueChanges.subscribe((changes) => {
       if (isNaN(changes.phone)) {
         this.userForm.patchValue({
@@ -86,7 +99,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.users.getInfoAboutClinics().subscribe(
+    let sub = this.users.getInfoAboutClinics().subscribe(
       (data: Users) => {
         this.allUser = data.data[0];
         this.allUsers = data.data;
@@ -101,6 +114,8 @@ export class UsersComponent implements OnInit {
         return e.admin == '';
       });
     });
+
+    this.subscriptions.push(sub);
   }
 
   openPopup() {
@@ -112,12 +127,9 @@ export class UsersComponent implements OnInit {
       phone: '',
       name: 'name',
       national_id: '',
-      clinic_id: '',
       password: '',
       password_confirmation: '',
     });
-
-    console.log(this.clinics.length);
   }
 
   editPopup(user: User) {
@@ -130,35 +142,43 @@ export class UsersComponent implements OnInit {
       phone: user.phone,
       name: user.name,
       national_id: user.national_id,
-      password: '0',
-      password_confirmation: '0',
-      clinic_id: '0',
     });
   }
 
   addUser() {
-    this.clinics.forEach((e: Clinic) => {
-      if (this.userForm.value.clinic_id == e.title) {
-        this.userForm.value.clinic_id = e.id;
-      }
-    });
-    this.users.createUser(this.userForm.value).subscribe(
-      () => {
-        this.success = 'add';
-        setTimeout(() => {
-          this.success = '';
-          this.isOpenPopup = false;
-        }, 2000);
-        this.ngOnInit();
-      },
-      (err) => {
-        this.wrong = 'errorAdd';
-        setTimeout(() => {
-          this.wrong = '';
-          this.isOpenPopup = false;
-        }, 2000);
-      }
-    );
+    let sub1 = this.clinic
+      .createClinic(this.clinicForm.value)
+      .subscribe((data: any) => {
+        let user = {
+          clinic_id: data.data[0].id,
+          email: this.userForm.value.email,
+          phone: this.userForm.value.phone,
+          name: this.userForm.value.name,
+          national_id: this.userForm.value.national_id,
+          password: this.userForm.value.password,
+          password_confirmation: this.userForm.value.password_confirmation,
+        };
+
+        let sub = this.users.createUser(user).subscribe(
+          () => {
+            this.success = 'add';
+            setTimeout(() => {
+              this.success = '';
+              this.isOpenPopup = false;
+            }, 2000);
+            this.ngOnInit();
+          },
+          (err) => {
+            this.wrong = 'errorAdd';
+            setTimeout(() => {
+              this.wrong = '';
+            }, 2000);
+          }
+        );
+
+        this.subscriptions.push(sub);
+      });
+    this.subscriptions.push(sub1);
   }
 
   editUder() {
@@ -169,7 +189,7 @@ export class UsersComponent implements OnInit {
       national_id: this.userForm.value.national_id,
     };
 
-    this.users.editUser(userUpdate, this.userID).subscribe(
+    let sub = this.users.editUser(userUpdate, this.userID).subscribe(
       () => {
         this.success = 'edit';
         setTimeout(() => {
@@ -182,10 +202,11 @@ export class UsersComponent implements OnInit {
         this.wrong = 'errorEdit';
         setTimeout(() => {
           this.wrong = '';
-          this.isOpenPopup = false;
         }, 2000);
       }
     );
+
+    this.subscriptions.push(sub);
   }
 
   get email() {
@@ -212,6 +233,18 @@ export class UsersComponent implements OnInit {
     return this.userForm.get('password_confirmation');
   }
 
+  get title() {
+    return this.clinicForm.get('title');
+  }
+
+  get address() {
+    return this.clinicForm.get('address');
+  }
+
+  get city() {
+    return this.clinicForm.get('city');
+  }
+
   displayedColumns: string[] = [
     'name',
     'email',
@@ -226,5 +259,9 @@ export class UsersComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

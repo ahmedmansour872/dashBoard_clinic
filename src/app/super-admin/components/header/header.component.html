@@ -1,4 +1,4 @@
-<nav class="main-menu" appAside (isHover)="show($event)">
+<nav class="main-menu" appAside (isHover)="isHover = $event">
   <div class="user">
     <ng-container *ngIf="isHover">
       <span class="name">{{ name }}</span>

@@ -1,0 +1,9 @@
+@import "../../../../super-admin/components/users/users.component.scss";
+
+::ng-deep {
+  .mat-primary
+    .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled)
+    .mdc-list-item__primary-text {
+    color: var(--main-color);
+  }
+}

@@ -1,0 +1,264 @@
+<div class="container">
+  <ng-container *ngIf="isShowData; else nodata">
+    <div class="over">
+      <div class="add-user">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="openPopup()"
+        >
+          <i class="add-icon fa-solid fa-plus"></i>
+          Add Patient
+        </button>
+      </div>
+      <div class="table-border">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">NO</th>
+              <th scope="col">Name</th>
+              <th scope="col">Phone</th>
+              <th scope="col">National ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let patient of allPatients; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ patient.name }}</td>
+              <td>{{ patient.phone }}</td>
+              <td>{{ patient.national_id }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #nodata>
+    <div
+      style="text-align: center; margin-top: 20px"
+      class="alert alert-danger"
+    >
+      No data To Show
+    </div>
+  </ng-template>
+</div>
+
+<div class="popup" *ngIf="isOpenPopup" @popupParent>
+  <div class="overlay">
+    <div class="head">
+      <h3>
+        <i class="fa-solid fa-plus"></i>
+        <span>{{ message }}</span>
+      </h3>
+      <div class="close" (click)="isOpenPopup = false">
+        <i class="fa-solid fa-x close-icon"></i>
+      </div>
+    </div>
+    <form class="example-form" [formGroup]="userForm">
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        @popupChildLeft
+      >
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name" />
+        <mat-icon
+          class="icon-color"
+          matSuffix
+          style="color: red"
+          *ngIf="name?.invalid && name?.dirty"
+          >sentiment_very_dissatisfied</mat-icon
+        >
+
+        <mat-icon class="icon-color" matSuffix *ngIf="name?.valid"
+          >sentiment_very_satisfied</mat-icon
+        >
+        <mat-error *ngIf="name?.invalid && name?.touched && name?.dirty">
+          Please enter Name More than 2 character
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        @popupChildRight
+      >
+        <mat-label>Telephone</mat-label>
+        <span matPrefix>+2 &nbsp;</span>
+        <input
+          type="tel"
+          matInput
+          placeholder="555-555-1234"
+          formControlName="phone"
+        />
+        <mat-icon matSuffix class="icon-color"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            width="28"
+            height="28"
+          >
+            <path
+              d="M27.308,20.649l-2.2-2.2a3.521,3.521,0,0,0-4.938-.021,2.152,2.152,0,0,1-2.729.267A15.026,15.026,0,0,1,13.3,14.562a2.181,2.181,0,0,1,.284-2.739A3.521,3.521,0,0,0,13.553,6.9l-2.2-2.2a3.514,3.514,0,0,0-4.961,0l-.633.634c-3.3,3.3-3.053,10.238,3.813,17.1,4.14,4.141,8.307,5.875,11.686,5.875a7.5,7.5,0,0,0,5.418-2.061l.634-.634A3.513,3.513,0,0,0,27.308,20.649ZM25.894,24.2l-.634.634c-2.6,2.6-8.339,2.125-14.276-3.813S4.571,9.34,7.171,6.74L7.8,6.107a1.511,1.511,0,0,1,2.133,0l2.2,2.2a1.511,1.511,0,0,1,.021,2.11,4.181,4.181,0,0,0-.531,5.239,17.01,17.01,0,0,0,4.713,4.706,4.179,4.179,0,0,0,5.231-.517,1.512,1.512,0,0,1,2.118.013l2.2,2.2A1.51,1.51,0,0,1,25.894,24.2Z"
+              fill="#488c9d"
+              class="color000 svgShape"
+            ></path>
+          </svg>
+        </mat-icon>
+        <mat-error *ngIf="phone?.invalid && phone?.touched && phone?.dirty">
+          Please enter Equal 11 Digit
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        @popupChildLeft
+      >
+        <mat-label>National Id</mat-label>
+        <input
+          matInput
+          #national_id
+          placeholder="Ex. 29903212700311"
+          formControlName="national_id"
+        />
+        <mat-icon matSuffix class="icon-color">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+            width="28"
+            height="28"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M43 42H5a4 4 0 0 1-4-4V17a4 4 0 0 1 4-4h15V9a4 4 0 0 1 8 0v4h15a4 4 0 0 1 4 4v21a4 4 0 0 1-4 4zm-25.986-7.512v.004c-.004 0-.018-.781-.018-.781s1.166-.601 2.031-1.378c.507-.417.741-1.362.741-1.362.137-.828.238-2.877.238-3.703 0-2.062-1.033-4.28-4.007-4.28v-.008.007c-2.974 0-4.007 2.219-4.007 4.28 0 .826.102 2.875.238 3.703 0 0 .234.945.741 1.362.865.777 2.031 1.378 2.031 1.378s-.014.781-.018.781v-.004s.029 1.146.029 1.487c0 1.362-1.365 2.018-2.223 2.018h-.003c-2.593.113-3.205.976-3.21.984-.158.254-.378.506-.579 1.024h14.004c-.201-.518-.421-.77-.582-1.022-.005-.009-.617-.871-3.21-.984h-.003c-.857 0-2.223-.655-2.223-2.018 0-.342.03-1.488.03-1.488zM26 9a2 2 0 0 0-4 0v6a2 2 0 0 0 4 0V9zm19 8a2 2 0 0 0-2-2H28a4 4 0 0 1-8 0H5a2 2 0 0 0-2 2v21a2 2 0 0 0 2 2h1.797c.231-.589.656-1.549 1.16-2.24.025-.014.848-1.739 4.998-1.79.006-.021.01-1.042.022-1.027a7.286 7.286 0 0 1-1.051-.816c-.255-.156-1.161-1.029-1.452-2.583-.087-.542-.488-3.099-.488-4.166 0-3.171 1.265-6.381 5.953-6.381h.121c4.688 0 5.953 3.21 5.953 6.381 0 1.067-.401 3.624-.488 4.166-.291 1.554-1.197 2.427-1.452 2.583a7.11 7.11 0 0 1-1.051.816c.013-.015.017 1.007.022 1.027 4.151.051 4.974 1.776 4.998 1.79.504.691.929 1.651 1.16 2.24H43a2 2 0 0 0 2-2V17zm-5 9H28a1 1 0 1 1 0-2h12a1 1 0 1 1 0 2zm-12 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2zm0 4h6a1 1 0 1 1 0 2h-6a1 1 0 1 1 0-2zm4-3a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM23 9h2v2h-2V9z"
+              clip-rule="evenodd"
+              fill="#488c9d"
+              class="color000 svgShape"
+            ></path>
+          </svg>
+        </mat-icon>
+        <mat-hint align="end">{{ national_id.value.length }} / 12</mat-hint>
+
+        <mat-error
+          *ngIf="national?.invalid && national?.touched && national?.dirty"
+        >
+          Please enter national ID Equal 12 Digit
+        </mat-error>
+      </mat-form-field>
+
+      <ng-container *ngIf="AddCheck">
+        <mat-form-field
+          appearance="fill"
+          class="example-full-width"
+          appearance="outline"
+          @popupChildRight
+        >
+          <mat-label>Enter your password</mat-label>
+          <input
+            required
+            minlength="8"
+            formControlName="password"
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'hidePassword password'"
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon class="icon-color">{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="
+              password?.value != '' && password?.touched && password?.dirty
+            "
+          >
+            Please enter password more than 8 character
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="fill"
+          class="example-full-width"
+          appearance="outline"
+          @popupChildLeft
+        >
+          <mat-label>Enter your Confirme password</mat-label>
+          <input
+            required
+            formControlName="password_confirmation"
+            matInput
+            [type]="hideConfirmePassword ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hideConfirmePassword = !hideConfirmePassword"
+            [attr.aria-label]="'hideConfirmePassword password'"
+            [attr.aria-pressed]="hideConfirmePassword"
+          >
+            <mat-icon class="icon-color">{{
+              hideConfirmePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-error
+          class="errors"
+          *ngIf="
+            confirmePassword?.value != password?.value &&
+            confirmePassword?.touched &&
+            confirmePassword?.dirty
+          "
+        >
+          not match password and confirme password
+        </mat-error>
+      </ng-container>
+    </form>
+
+    <div class="buttons">
+      <div>
+        <button
+          *ngIf="AddCheck"
+          type="button"
+          mat-raised-button
+          color="primary"
+          [disabled]="userForm.status == 'INVALID'"
+          (click)="addPatient()"
+        >
+          Add
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="isOpenPopup = false"
+        >
+          Cancel
+        </button>
+      </div>
+      <div class="error">
+        {{
+          userForm.status == "VALID" ? "data is Right" : "all Filed is Required"
+        }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="success">
+<ng-container *ngIf="success == 'add'">
+  <div class="alert alert-success" @translate>the Data added successfully</div>
+</ng-container>
+
+<ng-container *ngIf="wrong == 'errorAdd'">
+  <div class="alert alert-danger" @translate>the Data Add wrong</div>
+</ng-container>
+</div>

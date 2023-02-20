@@ -1,10 +1,11 @@
 import { popup } from 'src/app/animations/popup';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clinic } from '../../interface/clinic';
 import { ClinicsService } from '../../services/clinics/clinics.service';
 import { move } from 'src/app/animations/moveOn';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search-clinic',
@@ -12,12 +13,13 @@ import { move } from 'src/app/animations/moveOn';
   styleUrls: ['./search-clinic.component.scss'],
   animations: [popup, move],
 })
-export class SearchClinicComponent {
+export class SearchClinicComponent implements OnInit, OnDestroy {
   clinicForm: FormGroup;
   clinicId: number;
   showData: boolean;
   success: string;
   wrong: string;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private router: Router,
@@ -37,7 +39,7 @@ export class SearchClinicComponent {
   }
 
   ngOnInit(): void {
-    this.activateRoute.paramMap.subscribe((data) => {
+    let sub = this.activateRoute.paramMap.subscribe((data) => {
       this.clinics.getOneClinic(Number(data.get('id'))).subscribe(
         (data: any) => {
           this.showData = true;
@@ -56,30 +58,36 @@ export class SearchClinicComponent {
         }
       );
     });
+
+    this.subscriptions.push(sub);
   }
 
   editClinic() {
-    this.clinics.editClinic(this.clinicForm.value, this.clinicId).subscribe(
-      () => {
-        this.success = 'edit';
-        setTimeout(() => {
-          this.success = '';
-        }, 2000);
-        this.ngOnInit();
-      },
-      (err) => {
-        this.wrong = 'errorEdit';
-        setTimeout(() => {
-          this.wrong = '';
-        }, 2000);
-      }
-    );
+    let sub = this.clinics
+      .editClinic(this.clinicForm.value, this.clinicId)
+      .subscribe(
+        () => {
+          this.success = 'edit';
+          setTimeout(() => {
+            this.success = '';
+          }, 2000);
+          this.ngOnInit();
+        },
+        (err) => {
+          this.wrong = 'errorEdit';
+          setTimeout(() => {
+            this.wrong = '';
+          }, 2000);
+        }
+      );
+
+    this.subscriptions.push(sub);
   }
 
   deleteClinic() {
     let check = confirm(`Are You Sure Delete this Clinic ${this.title?.value}`);
     if (check) {
-      this.clinics.deleteClinic(this.clinicId).subscribe(
+      let sub = this.clinics.deleteClinic(this.clinicId).subscribe(
         () => {
           this.success = 'delete';
           setTimeout(() => {
@@ -94,6 +102,8 @@ export class SearchClinicComponent {
           }, 2000);
         }
       );
+
+      this.subscriptions.push(sub);
     }
   }
 
@@ -107,5 +117,9 @@ export class SearchClinicComponent {
 
   get city() {
     return this.clinicForm.get('city');
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

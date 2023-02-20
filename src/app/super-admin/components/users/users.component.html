@@ -53,72 +53,12 @@
                     ></path>
                   </svg>
                 </div>
-                <!-- <button
-            mat-raised-button
-            color="primary"
-            (click)="editPopup(user)"
-          >
-            Update
-          </button> -->
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-
-    <!-- <div class="mat-elevation-z8">
-      <div class="over">
-        <table mat-table [dataSource]="dataSource">
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="phone">
-            <th mat-header-cell *matHeaderCellDef>phone</th>
-            <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="national_id">
-            <th mat-header-cell *matHeaderCellDef>national_id</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.national_id }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef>Edit</th>
-            <td mat-cell *matCellDef="let element">
-              <button
-                mat-raised-button
-                color="primary"
-                (click)="editPopup(element)"
-              >
-                Edit
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-      </div>
-
-      <ng-container *ngIf="allUser.length >= 6">
-        <mat-paginator
-          [pageSizeOptions]="[5, 10, 20]"
-          showFirstLastButtons
-          aria-label="Select page of periodic elements"
-        >
-        </mat-paginator
-      ></ng-container>
-    </div> -->
   </ng-container>
 
   <ng-template #nodata>
@@ -334,6 +274,7 @@
         </mat-form-field>
 
         <mat-error
+          class="errors"
           *ngIf="
             confirmePassword?.value != password?.value &&
             confirmePassword?.touched &&
@@ -342,81 +283,84 @@
         >
           not match password and confirme password
         </mat-error>
-
-        <ng-container *ngIf="clinics.length; else noData">
-          <mat-form-field
-            appearance="fill"
-            appearance="outline"
-            class="example-full-width"
-            @popupChildRight
-          >
-            <mat-label>Clinic</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              [matAutocomplete]="auto"
-              matInput
-              placeholder="Clinic"
-              formControlName="clinic_id"
-            />
-
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of clinics" [value]="option.title">
-                {{ option.title }}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-icon matSuffix class="icon-color">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                enable-background="new 0 0 24 24"
-                viewBox="0 0 24 24"
-                width="28"
-                height="28"
-              >
-                <path
-                  d="M11.5,12v1.5H10c-0.3,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5h1.5V16c0,0.3,0.2,0.5,0.5,0.5h0c0.3,0,0.5-0.2,0.5-0.5v-1.5H14c0.3,0,0.5-0.2,0.5-0.5s-0.2-0.5-0.5-0.5h-1.5V12c0-0.3-0.2-0.5-0.5-0.5S11.5,11.7,11.5,12z M21.8,10.6l-9.5-8.4c-0.2-0.2-0.5-0.2-0.7,0l-9.5,8.4c-0.2,0.2-0.2,0.5,0,0.7c0.2,0.2,0.5,0.2,0.7,0l1.2-1v11.2C4,21.8,4.2,22,4.5,22h15c0.3,0,0.5-0.2,0.5-0.5V10.3l1.2,1c0.1,0.1,0.2,0.1,0.3,0.1v0c0.1,0,0.3-0.1,0.4-0.2C22.1,11.1,22,10.7,21.8,10.6z M19,21H5V9.4l7-6.2l7,6.2V21z"
-                  fill="#488c9d"
-                  class="color000 svgShape"
-                ></path>
-              </svg>
-            </mat-icon>
-          </mat-form-field>
-        </ng-container>
-
-        <ng-template #noData>
-          <mat-form-field
-            appearance="fill"
-            appearance="outline"
-            class="example-full-width"
-            @popupChildRight
-          >
-            <mat-label>You Should Add Clinics Before Add to User</mat-label>
-            <input
-              type="text"
-              aria-label="Number"
-              matInput
-              placeholder="Clinic"
-              [disabled]="clinics.length"
-            />
-            <mat-icon matSuffix class="icon-color">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                enable-background="new 0 0 24 24"
-                viewBox="0 0 24 24"
-                width="28"
-                height="28"
-              >
-                <path
-                  d="M11.5,12v1.5H10c-0.3,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5h1.5V16c0,0.3,0.2,0.5,0.5,0.5h0c0.3,0,0.5-0.2,0.5-0.5v-1.5H14c0.3,0,0.5-0.2,0.5-0.5s-0.2-0.5-0.5-0.5h-1.5V12c0-0.3-0.2-0.5-0.5-0.5S11.5,11.7,11.5,12z M21.8,10.6l-9.5-8.4c-0.2-0.2-0.5-0.2-0.7,0l-9.5,8.4c-0.2,0.2-0.2,0.5,0,0.7c0.2,0.2,0.5,0.2,0.7,0l1.2-1v11.2C4,21.8,4.2,22,4.5,22h15c0.3,0,0.5-0.2,0.5-0.5V10.3l1.2,1c0.1,0.1,0.2,0.1,0.3,0.1v0c0.1,0,0.3-0.1,0.4-0.2C22.1,11.1,22,10.7,21.8,10.6z M19,21H5V9.4l7-6.2l7,6.2V21z"
-                  fill="#488c9d"
-                  class="color000 svgShape"
-                ></path>
-              </svg>
-            </mat-icon>
-          </mat-form-field>
-        </ng-template>
       </ng-container>
     </form>
+
+    <ng-container *ngIf="AddCheck">
+      <form class="example-form" [formGroup]="clinicForm">
+        <h3>User's Clinic</h3>
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          @popupChildLeft
+        >
+          <mat-label>title</mat-label>
+          <input matInput placeholder="title" formControlName="title" />
+          <mat-icon
+            class="icon-color"
+            matSuffix
+            style="color: red"
+            *ngIf="title?.invalid"
+            >sentiment_very_dissatisfied</mat-icon
+          >
+
+          <mat-icon class="icon-color" matSuffix *ngIf="title?.valid"
+            >sentiment_very_satisfied</mat-icon
+          >
+          <mat-error *ngIf="title?.invalid && title?.touched && title?.dirty">
+            This field is Required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          @popupChildRight
+        >
+          <mat-label>address</mat-label>
+          <input matInput placeholder="address" formControlName="address" />
+          <mat-icon
+            class="icon-color"
+            matSuffix
+            style="color: red"
+            *ngIf="address?.invalid"
+            >sentiment_very_dissatisfied</mat-icon
+          >
+
+          <mat-icon class="icon-color" matSuffix *ngIf="address?.valid"
+            >sentiment_very_satisfied</mat-icon
+          >
+          <mat-error
+            *ngIf="address?.invalid && address?.touched && address?.dirty"
+          >
+            This field is Required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          @popupChildLeft
+        >
+          <mat-label>city</mat-label>
+          <input matInput placeholder="city" formControlName="city" />
+          <mat-icon
+            class="icon-color"
+            matSuffix
+            style="color: red"
+            *ngIf="city?.invalid"
+            >sentiment_very_dissatisfied</mat-icon
+          >
+
+          <mat-icon class="icon-color" matSuffix *ngIf="city?.valid"
+            >sentiment_very_satisfied</mat-icon
+          >
+          <mat-error *ngIf="city?.invalid && city?.touched && city?.dirty">
+            This field is Required
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </ng-container>
 
     <div class="buttons">
       <div>
@@ -425,7 +369,9 @@
           type="button"
           mat-raised-button
           color="primary"
-          [disabled]="userForm.status == 'INVALID'"
+          [disabled]="
+            userForm.status == 'INVALID' || clinicForm.status == 'INVALID'
+          "
           (click)="addUser()"
         >
           Add

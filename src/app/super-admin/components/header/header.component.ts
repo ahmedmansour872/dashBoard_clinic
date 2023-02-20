@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  isHover: boolean;
+  isHover: any;
   name: any;
   email: any;
   constructor() {
@@ -15,7 +15,4 @@ export class HeaderComponent {
     this.email = localStorage.getItem('email');
   }
 
-  show(e: boolean) {
-    this.isHover = e;
-  }
 }

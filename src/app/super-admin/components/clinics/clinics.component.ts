@@ -2,12 +2,13 @@ import { move } from 'src/app/animations/moveOn';
 import { Clinic } from './../../interface/clinic';
 import { Router } from '@angular/router';
 import { ClinicsService } from './../../services/clinics/clinics.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { popup } from 'src/app/animations/popup';
 import { Clinics } from '../../interface/clinics';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-clinics',
@@ -15,7 +16,8 @@ import { Clinics } from '../../interface/clinics';
   styleUrls: ['./clinics.component.scss'],
   animations: [popup, move],
 })
-export class ClinicsComponent implements OnInit {
+
+export class ClinicsComponent implements OnInit, OnDestroy {
   AddCheck: boolean;
   clinic: any;
   clinicForm: FormGroup;
@@ -26,6 +28,7 @@ export class ClinicsComponent implements OnInit {
   clinicId: number;
   success: string;
   wrong: string;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private clinics: ClinicsService,
@@ -48,14 +51,14 @@ export class ClinicsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clinics.getClinics().subscribe(
+    let sub = this.clinics.getClinics().subscribe(
       (data: Clinics) => {
         this.result = data.data.active;
         this.isShowData = true;
-        // this.dataSource = new MatTableDataSource(this.result);
       },
       (err) => (this.isShowData = false)
     );
+    this.subscriptions.push(sub);
   }
 
   openPopup() {
@@ -82,7 +85,7 @@ export class ClinicsComponent implements OnInit {
   }
 
   addClinic() {
-    this.clinics.createClinic(this.clinicForm.value).subscribe(
+    let sub = this.clinics.createClinic(this.clinicForm.value).subscribe(
       () => {
         this.success = 'add';
         setTimeout(() => {
@@ -99,32 +102,35 @@ export class ClinicsComponent implements OnInit {
         }, 2000);
       }
     );
+    this.subscriptions.push(sub);
   }
 
   editClinic() {
-    this.clinics.editClinic(this.clinicForm.value, this.clinicId).subscribe(
-      () => {
-        this.success = 'edit';
-        setTimeout(() => {
-          this.success = '';
-          this.isOpenPopup = false;
-        }, 2000);
-        this.ngOnInit();
-      },
-      (err) => {
-        this.wrong = 'errorEdit';
-        setTimeout(() => {
-          this.wrong = '';
-          this.isOpenPopup = false;
-        }, 2000);
-      }
-    );
+    let sub = this.clinics
+      .editClinic(this.clinicForm.value, this.clinicId)
+      .subscribe(
+        () => {
+          this.success = 'edit';
+          setTimeout(() => {
+            this.success = '';
+            this.isOpenPopup = false;
+          }, 2000);
+          this.ngOnInit();
+        },
+        (err) => {
+          this.wrong = 'errorEdit';
+          setTimeout(() => {
+            this.wrong = '';
+          }, 2000);
+        }
+      );
+    this.subscriptions.push(sub);
   }
 
   deleteClinic(clinic: Clinic) {
     let check = confirm(`Are You Sure Delete this Clinic ${clinic.title}`);
     if (check) {
-      this.clinics.deleteClinic(clinic.id).subscribe(
+      let sub = this.clinics.deleteClinic(clinic.id).subscribe(
         () => {
           this.success = 'delete';
           setTimeout(() => {
@@ -137,10 +143,10 @@ export class ClinicsComponent implements OnInit {
           this.wrong = 'errorDelete';
           setTimeout(() => {
             this.wrong = '';
-            this.isOpenPopup = false;
           }, 2000);
         }
       );
+      this.subscriptions.push(sub);
     }
   }
 
@@ -168,5 +174,9 @@ export class ClinicsComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

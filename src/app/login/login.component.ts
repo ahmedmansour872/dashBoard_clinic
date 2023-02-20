@@ -46,17 +46,17 @@ export class LoginComponent {
               this.router.navigateByUrl('Clinics');
               break;
             case 'Doctor':
-              this.router.navigateByUrl('Doctor');
+              this.router.navigateByUrl('Clinics/Admin/Doctor');
               break;
-            case 'Store':
-              this.router.navigateByUrl('Store');
+            case 'Storekeeper':
+              this.router.navigateByUrl('Clinics/Admin/Store');
               break;
-            case 'Reception':
-              this.router.navigateByUrl('Reception');
+            case 'Receptionist':
+              this.router.navigateByUrl('Clinics/Admin/Receptionist');
               break;
-            case 'Patient':
-              this.router.navigateByUrl('Patient');
-              break;
+            // case 'Patient':
+            //   this.router.navigateByUrl('Patient');
+            //   break;
 
             default:
               break;

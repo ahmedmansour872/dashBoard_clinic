@@ -1,6 +1,13 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { Clinics } from '../../interface/clinics';
 import { ClinicsService } from '../../services/clinics/clinics.service';
 
@@ -9,16 +16,18 @@ import { ClinicsService } from '../../services/clinics/clinics.service';
   templateUrl: './home-super.component.html',
   styleUrls: ['./home-super.component.scss'],
 })
-export class HomeSuperComponent implements OnInit, AfterViewInit {
+export class HomeSuperComponent implements OnInit, AfterViewInit, OnDestroy {
   result: any;
   isShowData: boolean;
+
+  subscriptions: Subscription[] = [];
   constructor(private aboutClinics: ClinicsService) {
     this.result = [];
     this.isShowData = true;
   }
 
   ngOnInit(): void {
-    this.aboutClinics.getClinics().subscribe(
+    let sub = this.aboutClinics.getClinics().subscribe(
       (data: Clinics) => {
         this.isShowData = true;
         data.data.active.forEach((e: any, i: number) => {
@@ -36,6 +45,8 @@ export class HomeSuperComponent implements OnInit, AfterViewInit {
       },
       (err) => (this.isShowData = false)
     );
+
+    this.subscriptions.push(sub);
   }
 
   displayedColumns: string[] = [
@@ -53,5 +64,9 @@ export class HomeSuperComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

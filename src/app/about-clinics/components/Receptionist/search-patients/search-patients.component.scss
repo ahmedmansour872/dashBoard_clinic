@@ -1,0 +1,9 @@
+@import "../../../../super-admin/components/users/users.component.scss";
+.popup {
+  z-index: -1;
+  background-color: unset;
+
+  .buttons {
+    justify-content: flex-start;
+  }
+}

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { PatientService } from './../../../services/patient/patient.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -26,7 +27,8 @@ export class PatientsComponent implements OnInit, OnDestroy {
   allPatients: any;
   constructor(
     private patient: PatientService,
-    private formbuilder: FormBuilder
+    private formbuilder: FormBuilder,
+    private router: Router
   ) {
     this.PatientID = 0;
     this.success = '';
@@ -84,6 +86,24 @@ export class PatientsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
+  search(patient: any) {
+    if (patient.value == '') this.ngOnInit();
+    else {
+      let sub = this.patient.searchPatient(patient.value).subscribe(
+        (data: any) => {
+          this.allPatients = data.data;
+          console.log(this.allPatients.length);
+          this.isShowData = true;
+        },
+        (err) => {
+          this.isShowData = false;
+          this.ngOnInit();
+        }
+      );
+      this.subscriptions.push(sub);
+    }
+  }
+
   openPopup() {
     this.AddCheck = true;
     this.isOpenPopup = true;
@@ -98,7 +118,6 @@ export class PatientsComponent implements OnInit, OnDestroy {
   }
 
   addPatient() {
-    console.log(this.userForm.value);
     let sub = this.patient.register(this.userForm.value).subscribe(
       () => {
         this.success = 'add';
@@ -117,6 +136,13 @@ export class PatientsComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.push(sub);
+  }
+
+  searchPatient(patient: any) {
+    this.router.navigate([
+      'Clinics/Admin/Receptionist/searchPatients',
+      patient.id,
+    ]);
   }
 
   get phone() {

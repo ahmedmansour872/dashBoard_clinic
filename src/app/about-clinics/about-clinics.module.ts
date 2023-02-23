@@ -18,6 +18,7 @@ import { PaymentsComponent } from './components/Receptionist/payments/payments.c
 import { InsuranceComponent } from './components/Receptionist/insurance/insurance.component';
 import { PatientsComponent } from './components/Receptionist/patients/patients.component';
 import { AppointmentsComponent } from './components/Receptionist/appointments/appointments.component';
+import { SearchPatientsComponent } from './components/Receptionist/search-patients/search-patients.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AppointmentsComponent } from './components/Receptionist/appointments/ap
     InsuranceComponent,
     PatientsComponent,
     AppointmentsComponent,
+    SearchPatientsComponent,
   ],
   imports: [
     CommonModule,

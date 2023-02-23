@@ -22,6 +22,34 @@ export class PatientService {
     );
   }
 
+  searchPatient(patient: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+
+    return this.http.get(
+      `${urlApi.urlAPI}/api/v1/clinic/receptionist/patient-search?keyword=${patient}`,
+      {
+        headers: headers,
+      }
+    );
+  }
+
+  showPatient(patientId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+
+    return this.http.get(
+      `${urlApi.urlAPI}/api/v1/clinic/receptionist/patients/${patientId}`,
+      {
+        headers: headers,
+      }
+    );
+  }
+
   register(patient: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

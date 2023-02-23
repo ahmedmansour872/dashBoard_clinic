@@ -1,3 +1,4 @@
+import { SearchPatientsComponent } from './components/Receptionist/search-patients/search-patients.component';
 import { AppointmentsComponent } from './components/Receptionist/appointments/appointments.component';
 import { PatientsComponent } from './components/Receptionist/patients/patients.component';
 import { InsuranceComponent } from './components/Receptionist/insurance/insurance.component';
@@ -71,6 +72,12 @@ const routes: Routes = [
       {
         path: 'Admin/Receptionist/Patients',
         component: PatientsComponent,
+        canActivate: [ReciptionGuard],
+      },
+
+      {
+        path: 'Admin/Receptionist/searchPatients/:id',
+        component: SearchPatientsComponent,
         canActivate: [ReciptionGuard],
       },
       {

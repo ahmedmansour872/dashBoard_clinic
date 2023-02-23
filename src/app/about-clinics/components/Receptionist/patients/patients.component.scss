@@ -1,1 +1,39 @@
 @import "../../../../super-admin/components/users/users.component.scss";
+
+.add-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .search {
+    position: relative;
+    width: 40%;
+    input {
+      background-color: var(--gray-color);
+      width: 100%;
+      padding: 0;
+      height: var(--height);
+      border: none;
+      outline: none;
+      caret-color: var(--main-color);
+      padding-left: 40px;
+      padding-right: 10px;
+      border-radius: var(--border);
+      -webkit-border-radius: var(--border);
+      -moz-border-radius: var(--border);
+      -ms-border-radius: var(--border);
+      -o-border-radius: var(--border);
+
+      &::placeholder {
+        color: #999;
+      }
+    }
+    .search-icon {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      color: var(--main-color);
+      font-size: 25px;
+    }
+  }
+}

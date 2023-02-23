@@ -2,15 +2,43 @@
   <ng-container *ngIf="isShowData; else nodata">
     <div class="over">
       <div class="add-user">
-        <button
-          type="button"
-          mat-raised-button
-          color="primary"
-          (click)="openPopup()"
-        >
-          <i class="add-icon fa-solid fa-plus"></i>
-          Add Patient
-        </button>
+        <div class="add-clinic">
+          <button type="button" class="btn btn-success" (click)="openPopup()">
+            <i class="add-icon fa-solid fa-plus"></i>
+            Add Patient
+          </button>
+        </div>
+        <div class="search">
+          <input
+            type="search"
+            placeholder="Search by Name or Phone or National Id"
+            aria-label="Enter Clinic Name"
+            matInput
+            (input)="search($event.target)"
+          />
+          <mat-icon class="search-icon">search</mat-icon>
+        </div>
+
+        <div class="search">
+          <input
+            type="search"
+            placeholder="Enter Patient Name"
+            aria-label="Enter Patient Name"
+            matInput
+            [matAutocomplete]="auto"
+          />
+          <mat-icon class="search-icon">search</mat-icon>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let patient of allPatients"
+              [value]="patient.name"
+              (click)="searchPatient(patient)"
+            >
+              {{ patient.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+
       </div>
       <div class="table-border">
         <table class="table table-hover">

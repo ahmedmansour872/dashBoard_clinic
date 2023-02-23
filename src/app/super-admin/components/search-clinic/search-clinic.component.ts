@@ -2,7 +2,6 @@ import { popup } from 'src/app/animations/popup';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Clinic } from '../../interface/clinic';
 import { ClinicsService } from '../../services/clinics/clinics.service';
 import { move } from 'src/app/animations/moveOn';
 import { Subscription } from 'rxjs';

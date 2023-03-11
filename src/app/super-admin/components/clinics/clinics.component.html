@@ -2,32 +2,32 @@
 
   <ng-container *ngIf="isShowData; else nodata">
     <div class="over">
-      <div class="add-user">
-        <div class="add-clinic">
-          <button type="button" class="btn btn-success" (click)="openPopup()">
-            Add Clinic
-          </button>
+        <div class="add-user">
+          <div class="add-clinic">
+            <button type="button" class="btn btn-success" (click)="openPopup()">
+              Add Clinic
+            </button>
+          </div>
+          <div class="search">
+            <input
+              type="search"
+              placeholder="Search or type a command"
+              aria-label="Enter Clinic Name"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <mat-icon class="search-icon">search</mat-icon>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of result"
+                [value]="option.title"
+                (click)="searchClinic(option)"
+              >
+                {{ option.title }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
         </div>
-        <div class="search">
-          <input
-            type="search"
-            placeholder="Search or type a command"
-            aria-label="Enter Clinic Name"
-            matInput
-            [matAutocomplete]="auto"
-          />
-          <mat-icon class="search-icon">search</mat-icon>
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option
-              *ngFor="let option of result"
-              [value]="option.title"
-              (click)="searchClinic(option)"
-            >
-              {{ option.title }}
-            </mat-option>
-          </mat-autocomplete>
-        </div>
-      </div>
 
       <div class="table-border">
         <table class="table table-hover">
@@ -48,7 +48,7 @@
               <td>{{ clinic.address }}</td>
               <td>{{ clinic.city }}</td>
               <td>
-  
+
                 <div (click)="deleteClinic(clinic)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
